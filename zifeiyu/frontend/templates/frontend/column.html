@@ -1,0 +1,3 @@
+{% extends "frontend/index.html" %}
+{% block pre_url %}url_for('frontend.column', page=posts.prev_num, archive_id=archive_id){% endblock %}
+{% block next_url %}url_for('frontend.column', page=posts.next_num, archive_id=archive_id){% endblock %}

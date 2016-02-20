@@ -1,0 +1,28 @@
+<div class="widget">
+    <h4 class="title">栏目列表</h4>
+    <div class="content community">
+        {% for column in columns %}
+            <p>
+                <a href="{{ url_for('frontend.column', column_id=column.id)}}">{{ column.label }}</a>
+            </p>
+        {% endfor %}
+    </div>
+</div>
+<div class="widget">
+    <h4 class="title">归档</h4>
+    <p class="content community">
+        {% for archive in archives %}
+            <p>
+                <a href="{{ url_for('frontend.archive', archive_id=archive.id)}}">{{ archive.label }}</a>
+            </p>
+        {% endfor %}
+    </p>
+</div>
+<div class="widget">
+    <h4 class="title">标签云</h4>
+    <div class="content tag-cloud">
+        {% for tag in tags %}
+            <a href="#">{{ tag.id }}</a>
+        {% endfor %}
+    </div>
+</div>

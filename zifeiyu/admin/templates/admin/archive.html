@@ -1,0 +1,58 @@
+{% extends "admin/base.html" %}
+{% block css %}
+{{super()}}
+<!-- DataTables -->
+<link rel="stylesheet" href="{{ url_for('admin.static', filename='admin/css/bootstrap-table.min.css') }}">
+{% endblock%}
+{% block content_title %}归档管理{% endblock %}
+{% block content%}
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title"> 归档列表</h3>
+    </div>
+    <div class="box-body">
+        <table id="table" data-toggle="table" data-classes="table table-hover" data-undefined-text="-" data-striped="true" data-pagination="true" data-search="true" data-search-on-enter-key="true" data-maintain-selected="true" data-show-toggle="true" data-locale="zh-CN" data-escape="true">
+            <thead>
+                <tr>
+                    <th data-field="id" data-sortable="true">id</th>
+                    <th data-sortable="true">标签</th>
+                    <th data-sortable="true">文章数</th>
+                    <th data-sortable="true">创建时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for archive in archives %}
+                <tr>
+                    <td>{{ archive.id }}</td>
+                    <td>{{ archive.label }}</td>
+                    <td>{{ archive.post_num }}</td>
+                    <td data-formatter="dateFormatter">{{ archive.local_created_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+<!-- /.box -->
+{% endblock %}
+{% block script%}
+{{super()}}
+<!-- bootstrap table -->
+<script src="{{ url_for('admin.static', filename='admin/js/bootstrap-table.min.js') }}"></script>
+<script src="{{ url_for('admin.static', filename='admin/js/bootstrap-table-zh-CN.min.js') }}"></script>
+<script type="text/javascript">
+    var $table = $('#table'),
+        $remove = $('#remove');
+        moment.locale("zh-cn");
+
+    function dateFormatter(value, row, index) {
+        result = [];
+        if(value == '')
+            result.push('-');
+        else
+            result.push(moment(value).format('LLLL'));
+        return result.join('');
+    }
+</script>
+{% endblock%}

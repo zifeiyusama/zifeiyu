@@ -1,0 +1,78 @@
+{% extends "admin/base.html" %}
+{% block title %}管理员登录{% endblock %}
+{% block css %}
+    {{ super() }}
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/iCheck/square/blue.css') }}">
+{% endblock %}
+{% block body %}
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <a href="#"><b>子非鱼</b></a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <p class="login-box-msg">登入您的后台</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <form class="loginForm" action="{{ url_for('admin.login') }}" method="post">
+    {{ form.csrf_token }}
+      <div class="form-group has-feedback">
+        <input type="email" name="email" class="form-control" placeholder="Email" data-bv-notempty data-bv-notempty-message="邮箱不能为空">
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="password" name="password" class="form-control" data-bv-notempty data-bv-notempty-message="密码不能为空" placeholder="Password">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="checkbox icheck">
+            <label>
+              <input type="checkbox" name="remember_me"> 记住我
+            </label>
+          </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+  </div>
+  <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->
+
+{% block script %}
+{{ super() }}
+<!-- iCheck -->
+<script type="text/javascript" src="{{ url_for('static', filename='js/admin/icheck.min.js') }}"></script>
+<script>
+  $(document).ready(function() {
+      $('.loginForm').bootstrapValidator({
+          message: '格式不正确',
+          excluded: [':disabled'],
+      });
+  });
+  $(function () {
+    $('input').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue',
+      increaseArea: '20%' // optional
+    });
+  });
+</script>
+{% endblock %}
+</body>
+{% endblock %}

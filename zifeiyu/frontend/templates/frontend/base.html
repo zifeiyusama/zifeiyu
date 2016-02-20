@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <meta name="Baiduspider"content="index,nofollow,noarchive">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Python, flask, 子非鱼, zifeiyu, churchillsama">
+    <meta name="description" content="一个热爱技术的学僧的个人博客">
+    <meta name="author" content="zifeiyu blog">
+    <link rel="shortcut icon" href="{{ url_for('frontend.static', filename='frontend/img/favicon.ico') }}">
+    <link rel="icon" href="{{ url_for('frontend.static', filename='frontend/img/favicon.ico') }}">
+    <title>子非鱼</title>
+    {% block css %}
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap/css/bootstrap.min.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Base css -->
+    <link rel="stylesheet" href="{{ url_for('frontend.static', filename='frontend/css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('frontend.static', filename='frontend/css/friendly.css') }}">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- moment js -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/moment-with-locales.js') }}"></script>
+    <script type="text/javascript">
+        moment.locale("zh-cn");
+    </script>
+    {% endblock %}
+</head>
+<body>
+    {% block header %}
+        {% include "frontend/includes/header.html" %}
+    {% endblock %}
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 col-sm-8  main-content">
+                    {% block content %}
+                    {% endblock %}
+                </main>
+                <aside class="col-md-4 col-sm-4 hidden-xs sidebar pull-right">
+                    {% block aside %}
+                        {% include "frontend/includes/aside.html" %}
+                    {% endblock %}
+                </aside>
+            </div>
+        </div>
+    </section>
+    {% block footer %}
+        {% include "frontend/includes/footer.html" %}
+    {% endblock %}
+    {% block js %}
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{{ url_for('static', filename='js/jQuery-2.1.4.min.js') }}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    {% endblock %}
+</body>
+
+</html>

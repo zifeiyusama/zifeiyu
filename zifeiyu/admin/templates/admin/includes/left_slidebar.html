@@ -1,0 +1,56 @@
+<!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- search form (Optional) -->
+      <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="搜索...">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+        </div>
+      </form>
+      <!-- /.search form -->
+
+      <!-- Sidebar Menu -->
+      <ul class="sidebar-menu">
+        <!-- <li class="header">HEADER</li> -->
+        <!-- Optionally, you can add icons to the links -->
+        <li>
+          <a href="{{url_for('admin.post')}}">
+            <i class="fa fa-pencil-square-o"></i>
+            <span>文章</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('admin.column')}}">
+            <i class="fa fa-columns"></i>
+            <span>栏目</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('admin.archive')}}">
+            <i class="fa fa-archive"></i>
+            <span>归档</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('admin.tag')}}">
+            <i class="fa fa-tags"></i>
+            <span>标签</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('admin.message')}}">
+            <i class="fa fa-comments-o"></i>
+            <span>留言</span>
+          </a>
+        </li>
+      </ul>
+      <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+  </aside>
