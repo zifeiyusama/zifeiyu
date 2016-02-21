@@ -6,7 +6,7 @@ DEBUG = True
 ADMINS = frozenset(['youremail@yourdomain.com'])
 SECRET_KEY = 'f2f49908291696b8a4bb7d36b83589995cdca626'
 
-SQLALCHEMY_DATABASE_URI = 'postgres://jhpopgvwszohcr:L40z51B9iqJR3UiWdP7T5-0-xX@ec2-54-83-198-111.compute-1.amazonaws.com:5432/d6n5fd8cstufjl'
+SQLALCHEMY_DATABASE_URI = 'postgres://zfjoxmtggitxte:KRrDVUAz0bt6WMpfMrzYPggmSx@ec2-54-83-198-111.compute-1.amazonaws.com:5432/dkiccm559kf32'
 DATABASE_CONNECT_OPTIONS = {}
 
 

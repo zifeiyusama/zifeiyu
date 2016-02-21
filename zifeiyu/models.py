@@ -42,8 +42,8 @@ class Admin(UserMixin):
         return self.__nickname
 
 tags = db.Table('tags',
-                db.Column('tag_id', db.Integer, db.ForeignKey('tag.id')),
-                db.Column('post_id', db.Integer, db.ForeignKey('post.id'))
+                db.Column('tag_id', db.String(32), db.ForeignKey('tag.id')),
+                db.Column('post_id', db.String(32), db.ForeignKey('post.id'))
                 )
 
 
