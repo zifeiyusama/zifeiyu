@@ -67,7 +67,7 @@ class Post(db.Model):
     title = db.Column(db.String(100))
     content = db.Column(db.Text)
     abstract = db.Column(db.Text)
-    status = db.Column(db.String(5), default=dict(POST_STATUS)['DRAFT'])
+    status = db.Column(db.String(10), default=dict(POST_STATUS)['DRAFT'])
     archive_id = db.Column(db.String(50), db.ForeignKey('archive.id'))
     column_id = db.Column(db.String(50), db.ForeignKey('column.id'))
     tags = db.relationship('Tag', secondary=tags, backref=db.backref('posts'))
