@@ -67,6 +67,7 @@ def add_post():
         post.abstract = form.abstract.data
         post.status = form.status.data
         post.column_id = form.column.data
+        tag_list = []
         tag_value = form.tags.data.decode('utf-8')
         if tag_value != '':
             tag_list = [ Tag(tag) for tag in tag_value.split(',')]
@@ -98,6 +99,7 @@ def edit_post(post_id):
         post.status = form.status.data
         post.abstract = form.abstract.data
         post.column_id = form.column.data
+        tag_list = []
         tag_value = form.tags.data.decode('utf-8')
         if tag_value != '':
             tag_list = [ Tag(tag) for tag in form.tags.data.decode('utf-8').split(',')]

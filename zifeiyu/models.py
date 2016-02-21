@@ -116,10 +116,11 @@ class Post(db.Model):
             #     db.session.commit()
             self.archive_id = archive.id
         self.updated_date = datetime.utcnow()
-        post_tags_id = [t.id for t in self.tags]
-        for tag in tag_list:
-            if tag.id not in post_tags_id:
-                self.tags.append(tag)
+        if len(tag_list) > 0:
+            post_tags_id = [t.id for t in self.tags]
+            for tag in tag_list:
+                if tag.id not in post_tags_id:
+                    self.tags.append(tag)
         db.session.add(self)
         db.session.commit()
 
