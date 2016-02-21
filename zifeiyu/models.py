@@ -42,15 +42,15 @@ class Admin(UserMixin):
         return self.__nickname
 
 tags = db.Table('tags',
-                db.Column('tag_id', db.String(32), db.ForeignKey('tag.id')),
-                db.Column('post_id', db.String(32), db.ForeignKey('post.id'))
+                db.Column('tag_id', db.String(50), db.ForeignKey('tag.id')),
+                db.Column('post_id', db.String(50), db.ForeignKey('post.id'))
                 )
 
 
 class Tag(db.Model):
 
     __tablename__='tag'
-    id = db.Column(db.String(32), primary_key=True)
+    id = db.Column(db.String(50), primary_key=True)
 
     def __init__(self, tag):
         self.id = tag
@@ -63,13 +63,13 @@ class Tag(db.Model):
 class Post(db.Model):
 
     __tablename__ = 'post'
-    id = db.Column(db.String(32), primary_key=True)
+    id = db.Column(db.String(50), primary_key=True)
     title = db.Column(db.String(100))
     content = db.Column(db.Text)
     abstract = db.Column(db.Text)
     status = db.Column(db.String(5), default=dict(POST_STATUS)['DRAFT'])
-    archive_id = db.Column(db.String(32), db.ForeignKey('archive.id'))
-    column_id = db.Column(db.String(32), db.ForeignKey('column.id'))
+    archive_id = db.Column(db.String(50), db.ForeignKey('archive.id'))
+    column_id = db.Column(db.String(50), db.ForeignKey('column.id'))
     tags = db.relationship('Tag', secondary=tags, backref=db.backref('posts'))
     created_date = db.Column(db.DateTime)
     updated_date = db.Column(db.DateTime)
@@ -125,7 +125,7 @@ class Post(db.Model):
 class Archive(db.Model):
 
     __tabname__ = 'archive'
-    id = db.Column(db.String(32), primary_key=True)
+    id = db.Column(db.String(50), primary_key=True)
     label = db.Column(db.String(15))
     posts = db.relationship('Post', backref="archive")
     created_date = db.Column(db.DateTime)
@@ -157,7 +157,7 @@ class Archive(db.Model):
 class Column(db.Model):
 
     __tablename__ = 'column'
-    id = db.Column(db.String(32), primary_key=True)
+    id = db.Column(db.String(50), primary_key=True)
     posts = db.relationship('Post', backref="column")
     label = db.Column(db.String(15))
     created_date = db.Column(db.DateTime)

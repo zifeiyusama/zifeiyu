@@ -3,7 +3,7 @@
 {% block css %}
     {{ super() }}
     <!-- iCheck -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/iCheck/square/blue.css') }}">
+    <link rel="stylesheet" href="{{ url_for('admin.static', filename='admin/css/iCheck/square/blue.css') }}">
 {% endblock %}
 {% block body %}
 <body class="hold-transition login-page">
@@ -57,7 +57,7 @@
 {% block script %}
 {{ super() }}
 <!-- iCheck -->
-<script type="text/javascript" src="{{ url_for('static', filename='js/admin/icheck.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('admin.static', filename='admin/js/icheck.min.js') }}"></script>
 <script>
   $(document).ready(function() {
       $('.loginForm').bootstrapValidator({
