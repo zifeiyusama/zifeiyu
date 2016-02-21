@@ -685,35 +685,27 @@ pre {
 /*====================================================
     footer
 ====================================================*/
-#main-footer {
-  background: #606873 !important;
-  padding-top:50px;
-  padding-bottom:50px;
-  width:100%
+.main-footer {
+  background: #202020;
+  padding: 35px 0 0;
+  color: #959595;
 }
-#main-footer .footer-col { text-align: left; color: #dedede !important;}
-#main-footer .footer-col h6 { height: 30px !important;color: #dedede !important }
-#main-footer .footer-col h6 { margin:0;color: #dedede !important }
-#main-footer .footer-col li { height: 30px !important;font-size: 1.4rem !important;color: #FFF !important;white-space: nowrap !important}
-#main-footer .footer-col a { color: inherit !important;text-decoration: none !important;color: #dedede !important;}
-#main-footer .footer-col .footer-col-unit { width: 70%;margin: auto }
-#main-footer .footer-col .footer-col-unit .address { white-space: normal }
-#main-footer .final-intro {
-  padding-top:20px;
-  width: 100%;
-  height: 20px;
-  color: #dbdbdb;
-  font-size: 1.2rem;
-  text-align: center
+.main-footer .widget .title {
+  color: #ffffff;
+  border-bottom: 1px solid #303030;
 }
-@media(max-width: 1000px) {
-  #main-footer .footer-col li {
-    font-size: 1.2rem !important;
-    white-space: nowrap !important;
-  }
-  #main-footer .footer-col .footer-col-unit { width: 90% }
+.main-footer .widget .content h6{
+  color:#959595
 }
-@media(max-width: 767px) {.service-items { display: none } }
+.copyright {
+  background: #111;
+  font-size: 13px;
+  text-align: center;
+  color: #555555;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-top: 1px solid #303030;
+}
 #back-to-top {
   position: fixed;
   right: 10px;
