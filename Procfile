@@ -1,1 +1,1 @@
-web: guicorn zifeiyu: run
+web: guicorn run:app
