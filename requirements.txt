@@ -7,10 +7,10 @@ Flask-SQLAlchemy==2.1
 Flask-WTF==0.12
 Jinja2==2.8
 lxml==3.5.0
-Markdown==2.6.5
 Pygments==2.1.1
 SQLAlchemy==1.0.10
 uuid==1.30
 Werkzeug==0.11.3
 WTForms==2.1
 gunicorn
+markdown2=2.3.0
