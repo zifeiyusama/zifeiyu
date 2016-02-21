@@ -91,7 +91,7 @@ class Post(db.Model):
     def local_publish_date(self):
         return self.publish_date.strftime("%Y-%m-%dT%H:%M:%S Z")
 
-    def save(self):
+    def save(self, tag_list):
         self.updated_date = datetime.utcnow()
         # set post status
         statuses = dict(POST_STATUS)
@@ -116,9 +116,11 @@ class Post(db.Model):
             #     db.session.commit()
             self.archive_id = archive.id
         self.updated_date = datetime.utcnow()
+        post_tags_id = [t.id for t in self.tags]
+        for tag in tag_list:
+            if tag.id not in post_tags_id:
+                self.tags.append(tag)
         db.session.add(self)
-        for tag in self.tags:
-            db.session.merge(tag)
         db.session.commit()
 
 
