@@ -8,18 +8,20 @@
     :copyright: (c) 2016 by zifeiyu.
     :license: MIT, see LICENSE for more details.
 """
-from flask import Flask
+from flask import Flask, url_for, redirect
 from zifeiyu.extensions import csrf, db, login_manager, cache
 from .admin import admin
 from .frontend import frontend
 from .models import Admin, Archive, Column, Tag
 from zifeiyu.utils.momentjs import momentjs
 from zifeiyu.utils.markdown import MDconverter, MDSetter
-
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+
+def index():
+    return redirect(url_for('frontend.index'))
 
 def create_app(config=None):
     """Creates the app."""
@@ -35,8 +37,8 @@ def create_app(config=None):
     app.jinja_env.globals['MDconverter'] = MDconverter
     app.jinja_env.globals['MDSetter'] = MDSetter
     configure_context_processors(app)
-
-
+    with app.app_context():
+        app.add_url_rule('/', view_func=index)
     return app
 
 def configure_blueprints(app):
