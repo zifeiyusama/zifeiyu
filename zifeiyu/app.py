@@ -15,6 +15,8 @@ from .frontend import frontend
 from .models import Admin, Archive, Column, Tag
 from zifeiyu.utils.momentjs import momentjs
 from zifeiyu.utils.markdown import MDconverter, MDSetter
+from zifeiyu.constants import POST_STATUS
+from jinja2 import environmentfilter
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -39,6 +41,7 @@ def create_app(config=None):
     configure_context_processors(app)
     with app.app_context():
         app.add_url_rule('/', view_func=index)
+    configure_custom_filter(app)
     return app
 
 def configure_blueprints(app):
@@ -92,5 +95,11 @@ def configure_context_processors(app):
     @cache.cached(timeout=50, key_prefix='tags')
     def tags():
         tags = Tag.query.all()
-        print tags
         return dict(tags=tags)
+
+def configure_custom_filter(app):
+
+    @app.template_filter('post_status_format')
+    def post_status_format(key):
+        post_status = dict(POST_STATUS)
+        return post_status[key]

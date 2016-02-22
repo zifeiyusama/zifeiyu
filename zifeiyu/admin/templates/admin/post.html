@@ -41,7 +41,7 @@
                     <td data-formatter="operateFormatter" data-events="operateEvents"></td>
                     <td>{{ post.id }}</td>
                     <td>{{ post.title }}</td>
-                    <td>{{ post.status }}</td>
+                    <td>{{ post.status |post_status_format}}</td>
                     <td>{{ post.column.label }}</td>
                     <td>{{ post.archive.label }}</td>
                     <td data-formatter="dateFormatter">{{ post.local_publish_date }}</td>
