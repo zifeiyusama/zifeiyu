@@ -1,10 +1,16 @@
 {% extends "frontend/base.html" %}
 {% block content %}
-<article class="post tag-about-ghost-in-depth tag-zhu-shou">
+<article class="post">
     <div class="post-head">
         <h1 class="post-title">
             {{ post.title }}
         </h1>
+        <div class="tag-list">
+            <i class="fa fa-tags"></i>
+            {% for tag in post.tags %}
+               <a>{{ tag.id }}</a>
+            {% endfor %}
+        </div>
         <div class="post-meta">
             <time>{{ momentjs(post.updated_date).format("LLLL") }}</time>
         </div>
@@ -13,14 +19,6 @@
         <p>
             {{ MDconverter(post.content).render() }}
         </p>
-    </div>
-    <div class="footer">
-        <hr>
-        <div class="pull-left tag-list">
-            {% for tag in post.tags %}
-                <span class="label label-default">{{ tag.id }}</span>
-            {% endfor %}
-        </div>
     </div>
 </article>
 {% endblock %}

@@ -15,7 +15,6 @@ class MDSetter(object):
         temp_content = content
         self.content = ''
         content_line = temp_content.decode('utf-8').splitlines()
-        print content_line
         i = 0
         counts = len(content_line)
         for line in content_line:
@@ -67,7 +66,6 @@ class MDconverter(object):
             elif len(child) > 0:
                 self.__visit_tree(child)
             i += 1
-            print i
 
     @classmethod
     def formatContent(self, content):
@@ -75,7 +73,5 @@ class MDconverter(object):
         result = []
         content_line = content.splitlines()
         for line in content_line:
-            print line
             result.append(str(line))
-        print result
         return result
