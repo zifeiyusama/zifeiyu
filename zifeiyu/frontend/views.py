@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 """
-    app.entry.views
+    zifeiyu.frontend.views
     ~~~~~~~~~~~~~~~~~~~~
 
     The module provides the views for entry
@@ -11,9 +11,10 @@
 """
 from zifeiyu.models import Post, Column, Archive, Tag
 from . import frontend
-from flask import redirect, render_template, request, current_app
+from flask import redirect, render_template, request, current_app, url_for
 from flask.ext.sqlalchemy import Pagination
 from zifeiyu.constants import POSTS_PER_PAGE
+from zifeiyu.extensions import weibo
 
 
 @frontend.route('/')
@@ -48,6 +49,31 @@ def message():
 @frontend.route('/about', methods=['GET','POST'])
 def about():
     return render_template('frontend/about.html')
+
+@frontend.route('/login')
+def login():
+    return weibo.authorize(callback=url_for('frontend.oauth_authorized',
+                           next=request.args.get('next') or request.referrer or None))
+
+@frontend.route('/oauth-authorized')
+@weibo.authorized_handler
+def oauth_authorized(resp):
+    next_url = request.args.get('next') or url_for('index')
+    if resp is None:
+        flash(u'You denied the request to sign in.')
+        return redirect(next_url)
+
+    access_token = resp['access_token']
+    expires_in = resp['expires_in']
+    print 'access token is %s' % access_token
+    print 'expires_in is %s' % expires_in
+    session['access_token'] = access_token, ''
+    return redirect(url_for('index'))
+    return redirect(next_url)
+
+@weibo.tokengetter
+def get_access_token():
+    return session.get('access_token')
 
 @frontend.route("/favicon.ico")
 def favicon():
