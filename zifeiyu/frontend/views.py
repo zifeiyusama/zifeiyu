@@ -53,7 +53,7 @@ def about():
 @frontend.route('/login')
 def login():
     return weibo.authorize(callback='http://zifeiyu.herokuapp.com/frontend/oauth-authorized',
-                           next=request.args.get('next') or request.referrer or None))
+                           next=request.args.get('next') or request.referrer or None)
 
 @frontend.route('/oauth-authorized')
 @weibo.authorized_handler
