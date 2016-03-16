@@ -47,6 +47,9 @@ def oauth_authorized(resp):
     next_url = request.args.get('next') or url_for('index')
     if resp is None:
         return redirect(next_url)
+    print resp
+    for key, value in resp:
+        print (key, value)
     session['weibo_token'] = resp['access_token']
     session['expires_in'] = resp['expires_in']
     session['uid'] = resp['uid']
