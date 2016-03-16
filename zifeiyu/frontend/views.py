@@ -48,11 +48,14 @@ def oauth_authorized(resp):
     if resp is None:
         return redirect(next_url)
     print resp
-    for key, value in resp:
-        print (key, value)
-    session['weibo_token'] = resp['access_token']
-    session['expires_in'] = resp['expires_in']
-    session['uid'] = resp['uid']
+    print resp.keys()
+    resp_string = resp.keys()[0]
+    resp_json = json.loads(resp_string)
+    print resp_json
+        # {'{"access_token":"2.00rlQVSC3EmLYBb1f3ac8dcb0kfoyC","remind_in":"157679999","expires_in":157679999,"uid":"2105692351"}': u''}
+    session['weibo_token'] = resp_json['access_token']
+    session['expires_in'] = resp_json['expires_in']
+    session['uid'] = resp_json['uid']
     user_resp = weibo.get('https://api.weibo.com/2/users/show.json')
     if user_resp.status == 200:
         user = json.loads(user_resp.data)
