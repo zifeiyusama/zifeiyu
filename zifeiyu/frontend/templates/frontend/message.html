@@ -9,7 +9,11 @@
             <div class="form-group">
                 {{ message_form.content(type="text", rows="3", class="form-control", id="content", placeholder="请输入留言内容...") }}
             </div>
-            <button type="submit" class="btn btn-default pull-right" {% if not session['weibo_id']%}title="请先登录" disabled{% endif %}>提交</button>
+            {% if not session['weibo_id']%}
+            <button type="submit" class="btn btn-default pull-right" disabled>登录后可提交</button>
+            {% else %}
+            <button type="submit" class="btn btn-default pull-right">提交</button>
+            {% endif %}
         </form>
         </div>
     </div>
@@ -65,7 +69,11 @@
                                                 <textarea class="form-control" id="replytextarea-{{ messageloop.index }}" name="content" placeholder="随便说点什么吧" rows="3" type="text"></textarea>
                                                 <input class="form-control hidden" name="message_id" type="text" value="{{ message.id }}">
                                                 <input class="form-control hidden" id="replyreply-{{ messageloop.index }}" name="reply_id" type="text" value="">
-                                                <button type="submit" class="btn btn-default pull-right reply-button" {% if not session['weibo_id']%}title="请先登录" disabled{% endif %}>回复</button>
+                                                {% if not session['weibo_id']%}
+                                                <button type="submit" class="btn btn-default pull-right reply-button" disabled>登录后可提交</button>
+                                                {% else %}
+                                                <button type="submit" class="btn btn-default pull-right reply-button">回复</button>
+                                                {% endif %}
                                             </form>
                                         </div>
                                     </div>
