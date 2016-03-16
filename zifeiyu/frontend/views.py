@@ -9,13 +9,57 @@
     :copyright: (c) 2016 by zifeiyu.
     :license: MIT, see LICENSE for more details.
 """
-from zifeiyu.models import Post, Column, Archive, Tag
+from zifeiyu.models import Post, Column, Archive, Tag, Message, MessageRelpy, Weibo
 from . import frontend
-from flask import redirect, render_template, request, current_app, url_for
+from flask import redirect, render_template, request, current_app, url_for, session
 from flask.ext.sqlalchemy import Pagination
 from zifeiyu.constants import POSTS_PER_PAGE
 from zifeiyu.extensions import weibo
+from zifeiyu.frontend.forms import MessageForm, MessageReplyForm
 
+
+@weibo.tokengetter
+def get_weibo_token(token=None):
+    return session.get('weibo_token')
+
+@frontend.route('/login')
+def login():
+    # callback = 'http://zifeiyu.herokuapp.com/frontend/index'
+    callback = url_for('frontend.oauth_authorized',
+        next=request.args.get('next') or request.referrer or None, _external=True)
+    return weibo.authorize(callback=callback)
+
+@frontend.route('/logout')
+def logout(next_url=None):
+    session.pop('weibo_token', None)
+    session.pop('weibo_id', None)
+    session.pop('screen_name', None)
+    session.pop('expires_in', None)
+    session.pop('uid', None)
+    session.pop('profile_image_url', None)
+    if next_url is None:
+        next_url = url_for('frontend.index')
+    return redirect(next_url)
+
+@frontend.route('/oauth_authorized')
+@weibo.authorized_handler
+def oauth_authorized(resp):
+    next_url = request.args.get('next') or url_for('index')
+    if resp is None:
+        return redirect(next_url)
+    session['weibo_token'] = resp['access_token']
+    session['expires_in'] = resp['expires_in']
+    session['uid'] = resp['uid']
+    user_resp = weibo.get('https://api.weibo.com/2/users/show.json')
+    if user_resp.status == 200:
+        user = json.loads(user_resp.data)
+        session['weibo_id'] = user['id']
+        session['screen_name'] = user['screen_name']
+        session['profile_image_url'] = user['profile_image_url']
+        weibo_user = Weibo(session['weibo_id'], session['weibo_token'], \
+                           session['expires_in'], session['screen_name'], session['profile_image_url'])
+        weibo_user.save()
+    return redirect(next_url)
 
 @frontend.route('/')
 @frontend.route('/index')
@@ -36,7 +80,6 @@ def archive(archive_id,page=1):
     posts = Post.query.filter_by(archive_id=archive_id).paginate(page, POSTS_PER_PAGE, False)
     return render_template('frontend/index.html', posts=posts, archive_id=archive_id)
 
-
 @frontend.route('/post/<post_id>')
 def post(post_id):
     post = Post.query.filter_by(id=post_id).first_or_404()
@@ -44,36 +87,43 @@ def post(post_id):
 
 @frontend.route('/message', methods=['GET','POST'])
 def message():
-    return render_template('frontend/message.html')
+    # session['weibo_id'] = '111111'
+    # session['profile_image_url'] = '/frontend/static/frontend/img/favicon.ico'
+    message_form = MessageForm()
+    reply_form = MessageReplyForm()
+    messages = Message.query.order_by(Message.created_date)
+    return render_template('frontend/message.html', message_form=message_form, reply_form=reply_form, messages=messages)
+
+@frontend.route('/add_message', methods=['POST'])
+def add_message():
+    form = MessageForm()
+    if form.validate_on_submit():
+        message = Message(form.content.data)
+        # message.weibo_id = '123456'
+        message.weibo_id = session['weibo_id']
+        message.save()
+    return redirect(url_for('frontend.message'))
+
+@frontend.route('/add_reply', methods=['POST'])
+def add_reply():
+    form = MessageReplyForm()
+    if form.validate_on_submit():
+        reply = MessageRelpy(form.content.data)
+        # reply.weibo_id = '123456'
+        message_id = form.message_id.data
+        if len(message_id) > 10:
+            reply.message_id = message_id
+        reply_id = form.reply_id.data
+        if len(reply_id) > 10:
+            reply.reply_id = reply_id
+        reply.weibo_id = session['weibo_id']
+        reply.save()
+    return redirect(url_for('frontend.message'))
+
 
 @frontend.route('/about', methods=['GET','POST'])
 def about():
     return render_template('frontend/about.html')
-
-@frontend.route('/login')
-def login():
-    return weibo.authorize(callback='http://zifeiyu.herokuapp.com/frontend/oauth-authorized',
-                           next=request.args.get('next') or request.referrer or None)
-
-@frontend.route('/oauth-authorized')
-@weibo.authorized_handler
-def oauth_authorized(resp):
-    next_url = request.args.get('next')
-    if resp is None:
-        flash(u'You denied the request to sign in.')
-        return redirect(next_url)
-
-    access_token = resp['access_token']
-    expires_in = resp['expires_in']
-    print 'access token is %s' % access_token
-    print 'expires_in is %s' % expires_in
-    session['access_token'] = access_token, ''
-    return redirect(url_for('index'))
-    return redirect(next_url)
-
-@weibo.tokengetter
-def get_access_token():
-    return session.get('access_token')
 
 @frontend.route("/favicon.ico")
 def favicon():

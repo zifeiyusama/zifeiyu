@@ -27,14 +27,17 @@ csrf = CsrfProtect()
 # Flask-Cache
 cache = Cache(config={'CACHE_TYPE': 'simple'})
 
-# Flask-oauth
+# OAuth
 oauth = OAuth()
-weibo = oauth.remote_app('weibo',
-                        base_url='https://api.weibo.com/oauth2/',
-                        authorize_url='https://api.weibo.com/oauth2/authorize',
-                        request_token_params={'redirect_uri': 'http://zifeiyu.herokuapp.com/frontend/index'},
-                        request_token_url=None,
-                        access_token_url='https://api.weibo.com/oauth2/access_token',
-                        access_token_params={'grant_type': 'authorization_code'},
-                        consumer_key='1421334646',
-                        consumer_secret='e10b836ccf233af0f95f1f851ba00782')
+weibo = oauth.remote_app(
+    'weibo',
+    base_url='https://api.weibo.com/oauth2/',
+    authorize_url='https://api.weibo.com/oauth2/authorize',
+    request_token_url=None,
+    request_token_params={'response_type': 'code'},
+    access_token_url='https://api.weibo.com/oauth2/access_token',
+    access_token_method='POST',
+    access_token_params={'grant_type': 'authorization_code'},
+    consumer_key='1421334646',
+    consumer_secret='e10b836ccf233af0f95f1f851ba00782'
+)

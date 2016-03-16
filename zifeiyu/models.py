@@ -200,3 +200,77 @@ class Column(db.Model):
         db.session.add(self)
         db.session.commit()
         return True
+
+class Weibo(db.Model):
+
+    __tablename__ = 'weibo'
+    id = db.Column(db.String(100), primary_key=True)
+    access_token = db.Column(db.String(100))
+    screen_name = db.Column(db.String(100))
+    expires = db.Column(db.Float)
+    authenticate_date = db.Column(db.DateTime)
+    profile_image_url = db.Column(db.String(150))
+    created_date = db.Column(db.DateTime)
+    updated_date = db.Column(db.DateTime)
+    messages = db.relationship('Message', backref="weibo")
+    message_replies = db.relationship('MessageRelpy', backref="weibo")
+
+    def __init__(self, id, access_token, expires, screen_name, profile_image_url):
+        self.id = id
+        self.access_token = access_token
+        self.expires = expires
+        self.screen_name = screen_name
+        self.profile_image_url = profile_image_url
+
+    def save(self):
+        db.session.merge(self)
+        db.session.commit()
+
+class Message(db.Model):
+
+    __tablename__ = 'message'
+    id = db.Column(db.String(100), primary_key=True)
+    created_date = db.Column(db.DateTime)
+    content = db.Column(db.String(130))
+    replies = db.relationship('MessageRelpy', backref="message")
+    weibo_id = db.Column(db.String(100), db.ForeignKey('weibo.id'))
+    is_deleted = db.Column(db.Boolean)
+
+    def __init__(self, content, weibo_id=None, message_id=None):
+        self.content = content
+        self.weibo_id = weibo_id
+        self.message_id = message_id
+
+    def save(self):
+        u = uuid.uuid1()
+        self.id = str(uuid.uuid5(u, 'message'))
+        self.created_date = datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
+
+    @hybrid_property
+    def reply_num(self):
+        return len(self.replies)
+
+class MessageRelpy(db.Model):
+
+    __tablename__ = 'message_reply'
+    id = db.Column(db.String(100), primary_key=True)
+    created_date = db.Column(db.DateTime)
+    content = db.Column(db.String(130))
+    message_id = db.Column(db.String(100), db.ForeignKey('message.id'))
+    reply_id = db.Column(db.String(100), db.ForeignKey('message_reply.id'))
+    weibo_id = db.Column(db.String(100), db.ForeignKey('weibo.id'))
+    is_from_admin = db.Column(db.Boolean)
+    is_deleted = db.Column(db.Boolean)
+
+    def __init__(self, content, weibo_id=None, message_id=None):
+        self.content = content
+
+    def save(self):
+        u = uuid.uuid1()
+        self.id = str(uuid.uuid5(u, 'message_reply'))
+        self.created_date = datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
+

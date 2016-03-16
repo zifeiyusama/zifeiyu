@@ -20,5 +20,48 @@
             {{ MDconverter(post.content).render() }}
         </p>
     </div>
+    <div class="footer">
+        <hr>
+        <div class="comments">
+            <ul class="media-list">
+                <li class="media comment">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-circle" src="{{ url_for('frontend.static', filename='frontend/img/favicon.ico') }}" alt="...">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <div class="comment-text">
+                            <span class="username media-heading">
+                                Maria Gonzales
+                                <span class="text-muted pull-right">8:03 PM Today</span>
+                            </span>
+                             It is a long established fact that a reader will be distracted
+                                  by the readable content of a page when looking at its layout.
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="media-list">
+                <li class="media comment">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-circle" src="{{ url_for('frontend.static', filename='frontend/img/favicon.ico') }}" alt="...">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <div class="comment-text">
+                            <span class="username media-heading">
+                                Maria Gonzales
+                                <span class="text-muted pull-right">8:03 PM Today</span>
+                            </span>
+                             It is a long established fact that a reader will be distracted
+                                  by the readable content of a page when looking at its layout.
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </article>
 {% endblock %}

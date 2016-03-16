@@ -12,9 +12,10 @@ from flask import Flask, url_for, redirect
 from zifeiyu.extensions import csrf, db, login_manager, cache
 from .admin import admin
 from .frontend import frontend
-from .models import Admin, Archive, Column, Tag
+from .models import Admin, Archive, Column, Tag, Weibo
 from zifeiyu.utils.momentjs import momentjs
 from zifeiyu.utils.markdown import MDconverter, MDSetter
+from zifeiyu.utils.sort import MessageReplySorter
 from zifeiyu.constants import POST_STATUS
 from jinja2 import environmentfilter
 import sys
@@ -35,14 +36,18 @@ def create_app(config=None):
 
     configure_extensions(app)
     configure_blueprints(app)
-    app.jinja_env.globals['momentjs'] = momentjs
-    app.jinja_env.globals['MDconverter'] = MDconverter
-    app.jinja_env.globals['MDSetter'] = MDSetter
     configure_context_processors(app)
+    configure_jinja(app)
     with app.app_context():
         app.add_url_rule('/', view_func=index)
     configure_custom_filter(app)
     return app
+
+def configure_jinja(app):
+    app.jinja_env.globals['momentjs'] = momentjs
+    app.jinja_env.globals['MDconverter'] = MDconverter
+    app.jinja_env.globals['MDSetter'] = MDSetter
+    app.jinja_env.globals['MessageReplySorter'] = MessageReplySorter
 
 def configure_blueprints(app):
     app.register_blueprint(admin, url_prefix='/admin')

@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+    zifeiyu.utils.markdown
+    ~~~~~~~~~~~~~~~~~~~~
+
+    add markdown function
+
+    :copyright: (c) 2016 by zifeiyu.
+    :license: Apache License 2.0, see LICENSE for more details.
+"""
 from jinja2 import Markup
 import markdown2
 from lxml import etree
@@ -10,6 +19,7 @@ from pygments.util import ClassNotFound
 
 
 class MDSetter(object):
+    '''set markdown editor value'''
 
     def __init__(self, content):
         temp_content = content
@@ -29,7 +39,7 @@ class MDSetter(object):
 
 
 class MDconverter(object):
-    """convert markdown2 string to html"""
+    """convert markdown2 string to html and highlight code"""
 
     def __init__(self, md_string):
         self.md_string =  markdown2.markdown(md_string, extras=['fenced-code-blocks'])
@@ -66,12 +76,3 @@ class MDconverter(object):
             elif len(child) > 0:
                 self.__visit_tree(child)
             i += 1
-
-    @classmethod
-    def formatContent(self, content):
-        '''format multiline to show it in a markdown editor'''
-        result = []
-        content_line = content.splitlines()
-        for line in content_line:
-            result.append(str(line))
-        return result
