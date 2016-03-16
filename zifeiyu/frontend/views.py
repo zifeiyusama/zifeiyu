@@ -94,7 +94,7 @@ def message():
     # session['profile_image_url'] = '/frontend/static/frontend/img/favicon.ico'
     message_form = MessageForm()
     reply_form = MessageReplyForm()
-    messages = Message.query.order_by(Message.created_date)
+    messages = Message.query.order_by(Message.created_date).all()
     return render_template('frontend/message.html', message_form=message_form, reply_form=reply_form, messages=messages)
 
 @frontend.route('/add_message', methods=['POST'])
