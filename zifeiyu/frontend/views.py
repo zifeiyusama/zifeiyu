@@ -19,10 +19,6 @@ from zifeiyu.frontend.forms import MessageForm, MessageReplyForm
 import json
 
 
-@weibo.tokengetter
-def get_weibo_token(token=None):
-    return session.get('weibo_token')
-
 @frontend.route('/login')
 def login():
     # callback = 'http://zifeiyu.herokuapp.com/frontend/index'
@@ -135,3 +131,7 @@ def about():
 @frontend.route("/favicon.ico")
 def favicon():
     return send_from_directory(os.path.join(current_app.root_path, 'static/img'),'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+@weibo.tokengetter
+def get_weibo_token():
+    return session.get('weibo_token')
