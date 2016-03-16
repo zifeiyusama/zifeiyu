@@ -16,6 +16,7 @@ from flask.ext.sqlalchemy import Pagination
 from zifeiyu.constants import POSTS_PER_PAGE
 from zifeiyu.extensions import weibo
 from zifeiyu.frontend.forms import MessageForm, MessageReplyForm
+import json
 
 
 @weibo.tokengetter
