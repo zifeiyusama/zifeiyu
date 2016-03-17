@@ -18,8 +18,8 @@ from functools import wraps
 
 WEIBO = {
     'name': 'weibo',
-    'client_id': 'weibo',
-    'client_secret': 'weibo',
+    'client_id': '1421334646',
+    'client_secret': 'e10b836ccf233af0f95f1f851ba00782',
     'authorize_url': 'https://api.weibo.com/oauth2/authorize',
     'authorize_params': {
         'response_type': 'code'
