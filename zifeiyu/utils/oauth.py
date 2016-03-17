@@ -225,6 +225,8 @@ class Oauth(object):
         """
         @wraps(f)
         def decorated(*args, **kwargs):
+            print args
+            print kwargs
             if 'code' in request.args:
                 data = self.handle_oauth2_response()
             self.free_request_token()
