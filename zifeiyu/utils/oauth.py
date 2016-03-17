@@ -176,7 +176,7 @@ class Oauth(object):
         # session.
         params = dict(self.authorize_params)
         params['redirect_uri'] = callback
-        params['client_id'] = self.consumer_key
+        params['client_id'] = self.client_id
         session[self.name + '_oauthredir'] = callback
         url = add_query(self.authorize_url, params)
         return redirect(url)
