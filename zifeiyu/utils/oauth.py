@@ -216,7 +216,7 @@ class Oauth(object):
                                  type='invalid_response', data=remote_args)
         return resp.data
 
-    def authorized_handler(self, f, request):
+    def authorized_handler(self, f):
         """Injects additional authorization functionality into the function.
         The function will be passed the response object as first argument
         if the request was allowed, or `None` if access was denied.  When the
@@ -225,8 +225,6 @@ class Oauth(object):
         """
         @wraps(f)
         def decorated(*args, **kwargs):
-            print args
-            print kwargs
             if 'code' in request.args:
                 data = self.handle_oauth2_response()
             self.free_request_token()
