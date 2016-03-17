@@ -13,7 +13,6 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_wtf.csrf import CsrfProtect
 from flask.ext.cache import Cache
-from flask_oauth import OAuth
 
 # Database
 db = SQLAlchemy()
@@ -26,18 +25,3 @@ csrf = CsrfProtect()
 
 # Flask-Cache
 cache = Cache(config={'CACHE_TYPE': 'simple'})
-
-# OAuth
-oauth = OAuth()
-weibo = oauth.remote_app(
-    'weibo',
-    base_url='https://api.weibo.com/oauth2/',
-    authorize_url='https://api.weibo.com/oauth2/authorize',
-    request_token_url=None,
-    request_token_params={'response_type': 'code'},
-    access_token_url='https://api.weibo.com/oauth2/access_token',
-    access_token_method='POST',
-    access_token_params={'grant_type': 'authorization_code'},
-    consumer_key='1421334646',
-    consumer_secret='e10b836ccf233af0f95f1f851ba00782'
-)

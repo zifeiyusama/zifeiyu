@@ -14,9 +14,11 @@ from . import frontend
 from flask import redirect, render_template, request, current_app, url_for, session
 from flask.ext.sqlalchemy import Pagination
 from zifeiyu.constants import POSTS_PER_PAGE
-from zifeiyu.extensions import weibo
+from zifeiyu.utils.oauth import Oauth
 from zifeiyu.frontend.forms import MessageForm, MessageReplyForm
 import json
+
+weibo = Oauth()
 
 
 @frontend.route('/login')
@@ -44,11 +46,7 @@ def oauth_authorized(resp):
     next_url = request.args.get('next') or url_for('index')
     if resp is None:
         return redirect(next_url)
-    print resp
-    print resp.keys()
-    resp_string = resp.keys()[0]
-    resp_json = json.loads(resp_string)
-    print resp_json
+    resp_json = resp.data
         # {'{"access_token":"2.00rlQVSC3EmLYBb1f3ac8dcb0kfoyC","remind_in":"157679999","expires_in":157679999,"uid":"2105692351"}': u''}
     session['weibo_token'] = resp_json['access_token']
     session['expires_in'] = resp_json['expires_in']
