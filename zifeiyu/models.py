@@ -223,7 +223,7 @@ class Weibo(db.Model):
         self.profile_image_url = profile_image_url
 
     def save(self):
-        db.session.merge(self)
+        db.session.add(self)
         db.session.commit()
 
 class Message(db.Model):
