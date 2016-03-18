@@ -50,7 +50,7 @@ def oauth_authorized():
     session['weibo_token'] = resp_json['access_token']
     session['expires_in'] = resp_json['expires_in']
     session['uid'] = resp_json['uid']
-    user_resp = weibo.get('https://api.weibo.com/2/users/show.json')
+    user_resp = weibo.get('https://api.weibo.com/2/users/show.json', {'uid':session['uid']})
     if user_resp.status == 200:
         user = user_resp.data
         session['weibo_id'] = user['id']
