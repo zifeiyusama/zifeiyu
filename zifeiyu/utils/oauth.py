@@ -160,7 +160,7 @@ class Oauth(object):
                 data, content_type = encode_request_data(data, format)
             if content_type is not None:
                 headers['Content-Type'] = content_type
-            return OAuthResponse(requests.post(url, body=data, headers=headers))
+            return OAuthResponse(requests.post(url, data=data, headers=headers))
 
     def authorize(self, callback=None):
         """Returns a redirect response to the remote authorization URL with
