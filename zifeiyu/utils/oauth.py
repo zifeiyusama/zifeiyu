@@ -48,14 +48,14 @@ class OAuthResponse(object):
     application.
     """
 
-    def __init__(self, resp, content):
+    def __init__(self, resp):
         #: a :class:`~werkzeug.Headers` object with the response headers
         #: the application sent.
         self.headers = Headers(resp)
         #: the raw, unencoded content from the server
-        self.raw_data = content
+        self.raw_data = resp.text
         #: the parsed content from the server
-        self.data = json.loads(content)
+        self.data = json.loads(resp.text)
 
     @property
     def status(self):
