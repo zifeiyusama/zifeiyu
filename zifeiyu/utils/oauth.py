@@ -10,8 +10,7 @@
     :license: MIT, see LICENSE for more details.
 """
 import urllib, requests, json
-from werkzeug import url_decode, url_encode, url_quote, \
-     parse_options_header, Headers
+from werkzeug import url_encode
 from flask import session, redirect
 
 WEIBO = {
@@ -51,7 +50,8 @@ class OAuthResponse(object):
     def __init__(self, resp):
         #: a :class:`~werkzeug.Headers` object with the response headers
         #: the application sent.
-        self.headers = Headers(resp)
+        
+        self.headers = resp.headers
         #: the raw, unencoded content from the server
         self.raw_data = resp.text
         #: the parsed content from the server
