@@ -216,7 +216,7 @@ class Oauth(object):
                                  type='invalid_response', data=remote_args)
         return resp.data
 
-    def authorized_handler(self, request):
+    def authorized_handler(self, *as, **ks):
         """Injects additional authorization functionality into the function.
         The function will be passed the response object as first argument
         if the request was allowed, or `None` if access was denied.  When the
