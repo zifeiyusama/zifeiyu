@@ -1,5 +1,6 @@
 {% extends "frontend/base.html" %}
 {% block css %}
+    {{ super() }}
     <link rel="stylesheet" href="{{ url_for('frontend.static', filename='frontend/css/toastr.mjn.css') }}">
 {% endblock%}
 {% block content %}
