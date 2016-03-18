@@ -58,11 +58,7 @@ class OAuthResponse(object):
         self.raw_data = resp.text
         #: the parsed content from the server
         self.data = json.loads(resp.text)
-
-    @property
-    def status(self):
-        """The status code of the response."""
-        return self.headers.get('status', type=int)
+        self.status = resp.status_code
 
 
 class OAuthException(RuntimeError):
@@ -114,7 +110,7 @@ class Oauth(object):
     def status_okay(self, resp):
         """Given request data, checks if the status is okay."""
         try:
-            return int(resp['status']) in (200, 201)
+            return int(resp.status) in (200, 201)
         except ValueError:
             return False
 
@@ -210,7 +206,7 @@ class Oauth(object):
         }
         remote_args.update(self.access_token_params)
         resp = self.post(self.access_token_url, remote_args)
-        if not self.status_okay(resp.headers):
+        if not self.status_okay(resp):
             raise OAuthException('Invalid response from ' + self.name,
                                  type='invalid_response', data=remote_args)
         return resp.data
