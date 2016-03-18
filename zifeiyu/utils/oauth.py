@@ -115,13 +115,13 @@ class Oauth(object):
         except ValueError:
             return False
 
-    def get(self, url, data):
+    def get(self, url, data=None):
         """Sends a ``GET`` request.  Accepts the same parameters as
         :meth:`request`.
         """
         return self.request(url, data)
 
-    def post(self, url, data):
+    def post(self, url, data=None):
         """Sends a ``POST`` request.  Accepts the same parameters as
         :meth:`request`.
         """
@@ -210,7 +210,10 @@ class Oauth(object):
         if not self.status_okay(resp):
             raise OAuthException('Invalid response from ' + self.name,
                                  type='invalid_response', data=remote_args)
-        return resp.data
+        data = resp.data
+        self.access_token = data['access_token']
+        self.expires = data['expires_in']
+        return data
 
     def authorized_handler(self, request):
         """Injects additional authorization functionality into the function.
