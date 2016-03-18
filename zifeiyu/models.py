@@ -225,7 +225,7 @@ class Weibo(db.Model):
     def save(self):
         user = db.session.query(Weibo).filter_by(id=str(self.id)).first()
         if user is not None:
-            user.update(self)
+            user = self
         else:
             db.session.add(self)
         db.session.commit()
