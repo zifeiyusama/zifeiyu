@@ -156,7 +156,7 @@ class Oauth(object):
             return OAuthResponse(requests.get(url))
         else:
             if content_type is None:
-                print 'data is %' % data
+                print data
                 data, content_type = encode_request_data(data, format)
             if content_type is not None:
                 headers['Content-Type'] = content_type
