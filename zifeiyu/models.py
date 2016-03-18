@@ -223,7 +223,7 @@ class Weibo(db.Model):
         self.profile_image_url = profile_image_url
 
     def save(self):
-        user = db.session.query(Weibo).filter_by(id == self.id).first()
+        user = db.session.query(Weibo).filter_by(id=self.id).first()
         if user is not None:
             user.update(self)
         else:
