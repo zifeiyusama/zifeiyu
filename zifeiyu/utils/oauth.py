@@ -116,21 +116,21 @@ class Oauth(object):
         except ValueError:
             return False
 
-    def get(self, *args, **kwargs):
+    def get(self, url, data):
         """Sends a ``GET`` request.  Accepts the same parameters as
         :meth:`request`.
         """
         kwargs['method'] = 'GET'
-        return self.request(*args, **kwargs)
+        return self.request(url, data)
 
-    def post(self, *args, **kwargs):
+    def post(self, url, data):
         """Sends a ``POST`` request.  Accepts the same parameters as
         :meth:`request`.
         """
         kwargs['method'] = 'POST'
         print args
         print kwargs
-        return self.request(*args, **kwargs)
+        return self.request(url, data)
 
     def request(self, url, data="", headers=None, format='urlencoded', \
                 method='GET', content_type=None):
@@ -160,6 +160,7 @@ class Oauth(object):
             return OAuthResponse(requests.get(url))
         else:
             if content_type is None:
+                print 'data is %' % data
                 data, content_type = encode_request_data(data, format)
             if content_type is not None:
                 headers['Content-Type'] = content_type
@@ -210,7 +211,7 @@ class Oauth(object):
             'redirect_uri':     session.get(self.name + '_oauthredir')
         }
         remote_args.update(self.access_token_params)
-        resp = self.post(self.access_token_url, url_encode(remote_args))
+        resp = self.post(self.access_token_url, remote_args)
         if not self.status_okay(resp.headers):
             raise OAuthException('Invalid response from ' + self.name,
                                  type='invalid_response', data=remote_args)
