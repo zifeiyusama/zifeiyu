@@ -27,7 +27,7 @@
                 <li class="media comment">
                     <div class="media-left">
                         <a href="#">
-                            <img class="media-object img-circle" src="{{ message.weibo.screen_name }}" >
+                            <img class="media-object img-circle" src="{{ message.weibo.profile_image_url }}" >
                         </a>
                     </div>
                     <div class="media-body">
@@ -83,13 +83,15 @@
                                 <li class="media comment">
                                     <div class="media-left">
                                         <a href="#">
-                                            <img class="media-object img-circle" src="{{ message.weibo.screen_name }}" >
+                                            <img class="media-object img-circle" src="{{ message.weibo.profile_image_url }}" >
                                         </a>
                                     </div>
                                     <div class="media-body">
                                         <div class="comment-text">
                                             <span class="username media-heading">
-                                                <span id="user-{{ messageloop.index }}-{{ loop.index }}">Maria</span>
+                                                <span id="user-{{ messageloop.index }}-{{ loop.index }}">
+                                                    {{ message.weibo.screen_name }}
+                                                </span>
                                                 <span class="text-muted pull-right">
                                                     {{ momentjs(reply.created_date).format("LLL") }}
                                                 </span>
