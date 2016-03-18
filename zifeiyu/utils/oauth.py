@@ -58,6 +58,7 @@ class OAuthResponse(object):
         self.raw_data = resp.text
         #: the parsed content from the server
         self.data = json.loads(resp.text)
+        print self.data
         self.status = resp.status_code
 
 

@@ -46,7 +46,7 @@ def oauth_authorized():
     next_url = request.args.get('next') or url_for('index')
     if resp is None:
         return redirect(next_url)
-    resp_json = resp.data
+    resp_json = resp
         # {'{"access_token":"2.00rlQVSC3EmLYBb1f3ac8dcb0kfoyC","remind_in":"157679999","expires_in":157679999,"uid":"2105692351"}': u''}
     session['weibo_token'] = resp_json['access_token']
     session['expires_in'] = resp_json['expires_in']
