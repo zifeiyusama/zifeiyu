@@ -128,6 +128,8 @@ class Oauth(object):
         :meth:`request`.
         """
         kwargs['method'] = 'POST'
+        print args
+        print kwargs
         return self.request(*args, **kwargs)
 
     def request(self, url, data="", headers=None, format='urlencoded', \
