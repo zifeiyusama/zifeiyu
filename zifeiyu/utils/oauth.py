@@ -50,8 +50,10 @@ class OAuthResponse(object):
     def __init__(self, resp):
         #: a :class:`~werkzeug.Headers` object with the response headers
         #: the application sent.
-        
+        print resp.headers
+        print resp
         self.headers = resp.headers
+        print self.headers
         #: the raw, unencoded content from the server
         self.raw_data = resp.text
         #: the parsed content from the server
