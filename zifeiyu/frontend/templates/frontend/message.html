@@ -30,9 +30,7 @@
             {% set messageloop = loop %}
                 <li class="media comment">
                     <div class="media-left">
-                        <a href="#">
-                            <img class="media-object img-circle" src="{{ message.weibo.profile_image_url }}" >
-                        </a>
+                        <img class="media-object img-circle" src="{{ message.weibo.profile_image_url }}" >
                     </div>
                     <div class="media-body">
                         <div class="comment-text">
@@ -58,13 +56,11 @@
                             <ul class="media-list hidden"  id='replylist-{{ messageloop.index }}'>
                                 <li class="media comment">
                                     <div class="media-left">
-                                        <a href="#">
-                                            {% if session['profile_image_url'] %}
-                                            <img class="media-object img-circle" src="{{ session['profile_image_url'] }}">
-                                            {% else %}
-                                            <img class="media-object img-circle" src="{{ url_for('frontend.static', filename='frontend/img/favicon.ico') }}">
-                                            {% endif %}
-                                        </a>
+                                        {% if session['profile_image_url'] %}
+                                        <img class="media-object img-circle" src="{{ session['profile_image_url'] }}">
+                                        {% else %}
+                                        <img class="media-object img-circle" src="{{ url_for('frontend.static', filename='frontend/img/favicon.ico') }}">
+                                        {% endif %}
                                     </div>
                                     <div class="media-body">
                                         <div class="reply-box">
@@ -86,9 +82,7 @@
                                 {% for reply in MessageReplySorter(message.replies).sort() %}
                                 <li class="media comment">
                                     <div class="media-left">
-                                        <a href="#">
-                                            <img class="media-object img-circle" src="{{ message.weibo.profile_image_url }}" >
-                                        </a>
+                                        <img class="media-object img-circle" src="{{ message.weibo.profile_image_url }}" >
                                     </div>
                                     <div class="media-body">
                                         <div class="comment-text">
