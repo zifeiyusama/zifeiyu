@@ -13,6 +13,7 @@ import urllib, requests, json
 from werkzeug import url_decode, url_encode, url_quote, \
      parse_options_header, Headers
 from flask import session, redirect
+from functools import wraps
 
 
 WEIBO = {
@@ -197,13 +198,13 @@ class Oauth(object):
         self.tokengetter_func = f
         return f
 
-    def handle_oauth2_response(self):
+    def handle_oauth2_response(self, code):
         """Handles an oauth2 authorization response.  The return value of
         this method is forwarded as first argument to the handling view
         function.
         """
         remote_args = {
-            'code':             request.args.get('code'),
+            'code':             code,
             'client_id':        self.client_id,
             'client_secret':    self.client_secret,
             'redirect_uri':     session.get(self.name + '_oauthredir')
@@ -215,19 +216,20 @@ class Oauth(object):
                                  type='invalid_response', data=remote_args)
         return resp.data
 
-    def authorized_handler(self, request):
+    def authorized_handler(self, f):
         """Injects additional authorization functionality into the function.
         The function will be passed the response object as first argument
         if the request was allowed, or `None` if access was denied.  When the
         authorized handler is called, the temporary issued tokens are already
         destroyed.
         """
-        if 'code' in request.args:
-            data = self.handle_oauth2_response()
+        @wraps(f)
+        def decorated(*args, **kwargs):
+            if 'code' in request.args:
+                data = self.handle_oauth2_response(request.args.get('code'))
             self.free_request_token()
-            return data
-        else:
-            return None
+            return f(*((data,) + args), **kwargs)
+        return decorated
 
     def free_request_token(self):
         session.pop(self.name + '_oauthtok', None)
