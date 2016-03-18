@@ -119,7 +119,7 @@ class Oauth(object):
         """Sends a ``GET`` request.  Accepts the same parameters as
         :meth:`request`.
         """
-        if self.access_token is not None
+        if self.access_token is not None:
             data['access_token'] = self.access_token
         return self.request(url, data)
 
@@ -127,7 +127,7 @@ class Oauth(object):
         """Sends a ``POST`` request.  Accepts the same parameters as
         :meth:`request`.
         """
-        if self.access_token is not None
+        if self.access_token is not None:
             data['access_token'] = self.access_token
         return self.request(url, data, method='POST')
 
