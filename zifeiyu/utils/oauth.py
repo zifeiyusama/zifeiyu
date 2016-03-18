@@ -19,7 +19,8 @@ WEIBO = {
     'client_secret': 'e10b836ccf233af0f95f1f851ba00782',
     'authorize_url': 'https://api.weibo.com/oauth2/authorize',
     'authorize_params': {
-        'response_type': 'code'
+        'response_type': 'code',
+        'forcelogin': True
     },
     'access_token_url': 'https://api.weibo.com/oauth2/access_token',
     'access_token_params': {
