@@ -41,7 +41,7 @@ def logout(next_url=None):
     return redirect(next_url)
 
 @frontend.route('/oauth_authorized')
-@weibo.authorized_handler()
+@weibo.authorized_handler(request)
 def oauth_authorized(resp):
     next_url = request.args.get('next') or url_for('index')
     if resp is None:
