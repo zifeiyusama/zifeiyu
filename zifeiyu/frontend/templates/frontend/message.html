@@ -50,7 +50,7 @@
                                     {% endif %}
                                 </a>
                             </span>
-                            <span class="pull-right hidden" id='count-{{ messageloop.index }}'>还可输入130字</span>
+                            <!-- <span class="pull-right hidden" id='count-{{ messageloop.index }}'>还可输入130字</span> -->
                             <ul class="media-list hidden"  id='replylist-{{ messageloop.index }}'>
                                 <li class="media comment">
                                     <div class="media-left">
@@ -66,7 +66,7 @@
                                         <div class="reply-box">
                                             <form  role="form" action="{{ url_for('frontend.add_reply') }}" method="post">
                                                 {{ message_form.csrf_token }}
-                                                <textarea class="form-control" id="replytextarea-{{ messageloop.index }}" name="content" placeholder="随便说点什么吧" rows="3" type="text"></textarea>
+                                                <textarea class="form-control" id="replytextarea-{{ messageloop.index }}" name="content" placeholder="随便说点什么吧" rows="3" type="text" required></textarea>
                                                 <input class="form-control hidden" name="message_id" type="text" value="{{ message.id }}">
                                                 <input class="form-control hidden" id="replyreply-{{ messageloop.index }}" name="reply_id" type="text" value="">
                                                 {% if not session['weibo_id']%}
