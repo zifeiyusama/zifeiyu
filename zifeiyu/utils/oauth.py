@@ -120,17 +120,13 @@ class Oauth(object):
         """Sends a ``GET`` request.  Accepts the same parameters as
         :meth:`request`.
         """
-        kwargs['method'] = 'GET'
         return self.request(url, data)
 
-    def post(self, url, data):
+    def post(self, url, data, method):
         """Sends a ``POST`` request.  Accepts the same parameters as
         :meth:`request`.
         """
-        kwargs['method'] = 'POST'
-        print args
-        print kwargs
-        return self.request(url, data)
+        return self.request(url, data, method='POST')
 
     def request(self, url, data="", headers=None, format='urlencoded', \
                 method='GET', content_type=None):
