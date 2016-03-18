@@ -23,7 +23,7 @@
                                 {{ session['screen_name'] }} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">退出登陆</a></li>
+                                <li><a href="{{ url_for('frontend.logout') }}">退出登陆</a></li>
                             </ul>
                         </li>
                     </ul>

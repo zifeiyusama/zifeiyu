@@ -27,13 +27,13 @@
                 <li class="media comment">
                     <div class="media-left">
                         <a href="#">
-                            <img class="media-object img-circle" src="{{ url_for('frontend.static', filename='frontend/img/favicon.ico') }}" >
+                            <img class="media-object img-circle" src="{{ message.weibo.screen_name }}" >
                         </a>
                     </div>
                     <div class="media-body">
                         <div class="comment-text">
                             <span class="username media-heading">
-                                    <span id="user-{{ messageloop.index }}">Maria Gonzales</span>
+                                    <span id="user-{{ messageloop.index }}">{{ message.weibo.screen_name }}</span>
                                     <span class="text-muted pull-right">
                                         {{ momentjs(message.created_date).format("LLL") }}
                                     </span>
@@ -83,7 +83,7 @@
                                 <li class="media comment">
                                     <div class="media-left">
                                         <a href="#">
-                                            <img class="media-object img-circle" src="/frontend/static/frontend/img/favicon.ico" >
+                                            <img class="media-object img-circle" src="{{ message.weibo.screen_name }}" >
                                         </a>
                                     </div>
                                     <div class="media-body">
