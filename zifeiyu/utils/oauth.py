@@ -115,23 +115,19 @@ class Oauth(object):
         except ValueError:
             return False
 
-    def get(self, url, data=None):
+    def get(self, url, data={}):
         """Sends a ``GET`` request.  Accepts the same parameters as
         :meth:`request`.
         """
-        if self.access_token is not None:
-            data['access_token'] = self.access_token
         return self.request(url, data)
 
-    def post(self, url, data=None):
+    def post(self, url, data={}):
         """Sends a ``POST`` request.  Accepts the same parameters as
         :meth:`request`.
         """
-        if self.access_token is not None:
-            data['access_token'] = self.access_token
         return self.request(url, data, method='POST')
 
-    def request(self, url, data="", headers=None, format='urlencoded', \
+    def request(self, url, data, headers=None, format='urlencoded', \
                 method='GET', content_type=None):
         """Sends a request to the remote server with OAuth tokens attached.
         :param url: where to send the request to
@@ -151,11 +147,13 @@ class Oauth(object):
         :return: an :class:`OAuthResponse` object.
         """
         headers = dict(headers or {})
+        if self.access_token is not None:
+            data['access_token'] = self.access_token
         if method == 'GET':
             assert format == 'urlencoded'
             if data:
                 url = add_query(url, data)
-                data = ""
+                data = {}
             return OAuthResponse(requests.get(url))
         else:
             if content_type is None:
