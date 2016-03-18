@@ -122,7 +122,7 @@ class Oauth(object):
         """
         return self.request(url, data)
 
-    def post(self, url, data, method):
+    def post(self, url, data):
         """Sends a ``POST`` request.  Accepts the same parameters as
         :meth:`request`.
         """
