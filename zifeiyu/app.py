@@ -18,6 +18,8 @@ from zifeiyu.utils.markdown import MDconverter, MDSetter
 from zifeiyu.utils.sort import MessageReplySorter
 from zifeiyu.constants import POST_STATUS
 from jinja2 import environmentfilter
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -34,14 +36,14 @@ def create_app(config=None):
     # Configure app
     app.config.from_object('config')
 
-    configure_extensions(app)
+    manager = configure_extensions(app)
     configure_blueprints(app)
     configure_context_processors(app)
     configure_jinja(app)
     with app.app_context():
         app.add_url_rule('/', view_func=index)
     configure_custom_filter(app)
-    return app
+    return app, manager
 
 def configure_jinja(app):
     app.jinja_env.globals['momentjs'] = momentjs
@@ -58,8 +60,10 @@ def configure_extensions(app):
 
     # Flask-SQLAlchemy
     db.init_app(app)
-    with app.app_context():
-        db.create_all()
+    # Flask-migrate
+    migrate = Migrate(app, db)
+    manager = Manager(app)
+    manager.add_command('db', MigrateCommand)
 
     # Flask-WTF CSRF
     csrf.init_app(app)
@@ -80,6 +84,7 @@ def configure_extensions(app):
 
     #Flask-Cache
     cache.init_app(app)
+    return manager
 
 
 def configure_context_processors(app):
