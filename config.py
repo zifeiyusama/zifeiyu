@@ -6,7 +6,10 @@ DEBUG = True
 ADMINS = frozenset(['youremail@yourdomain.com'])
 SECRET_KEY = 'f2f49908291696b8a4bb7d36b83589995cdca626'
 
-SQLALCHEMY_DATABASE_URI = 'postgres://zfjoxmtggitxte:KRrDVUAz0bt6WMpfMrzYPggmSx@ec2-54-83-198-111.compute-1.amazonaws.com:5432/dkiccm559kf32'
+# SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(_basedir, 'apptest5.db')
+SQLALCHEMY_DATABASE_URI = 'mysql://root:dpfyl@localhost:3306/zifeiyu'
+# SQLALCHEMY_DATABASE_URI = create_engine('mysql://scott:tiger@localhost/foo')
+# SQLALCHEMY_DATABASE_URI = 'postgres://zfjoxmtggitxte:KRrDVUAz0bt6WMpfMrzYPggmSx@ec2-54-83-198-111.compute-1.amazonaws.com:5432/dkiccm559kf32'
 DATABASE_CONNECT_OPTIONS = {}
 
 
@@ -14,7 +17,6 @@ DATABASE_CONNECT_OPTIONS = {}
 
 WTF_CSRF_ENABLED = True
 WTF_CSRF_SECRET_KEY = "8f37f2a475fc1cdcdb9496337244b760456f0646"
-
 
 # RECAPTCHA_USE_SSL = False
 # RECAPTCHA_PUBLIC_KEY = '6LeYIbsSAAAAACRPIllxA7wvXjIE411PfdB2gt2J'
