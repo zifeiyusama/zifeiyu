@@ -11,7 +11,8 @@
 """
 from jinja2 import Markup
 import markdown2
-from lxml import etree
+import xml.etree.ElementTree as ET
+from xml.etree.ElementTree import ElementTree, tostring
 from pygments import highlight
 from pygments.lexers import guess_lexer
 from pygments.formatters import HtmlFormatter
@@ -49,10 +50,12 @@ class MDconverter(object):
         return Markup(self.md_string)
 
     def highlight_code(self):
-        result = etree.Element("div")
-        root = etree.fromstring('<div>' + self.md_string + '</div>')
+
+        self.md_string = '<div>' + self.md_string + '</div>'
+        tree = ET.ElementTree(ET.fromstring(self.md_string))
+        root = tree.getroot()
         self.__visit_tree(root)
-        self.md_string = etree.tostring(root)
+        self.md_string = tostring(root)
 
     def __visit_tree(self, root):
         i = 0
@@ -69,7 +72,7 @@ class MDconverter(object):
                 # result is like this <div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;Hello World&quot;</span></pre></div>
                 try:
                     highlight_code = highlight(code_text, guess_lexer(code_text), HtmlFormatter())
-                    root[i] = etree.fromstring(highlight_code)
+                    root[i] = ET.fromstring(highlight_code)
                 except ClassNotFound, e:
                     i += 1
                     continue
