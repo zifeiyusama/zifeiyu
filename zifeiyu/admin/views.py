@@ -69,7 +69,7 @@ def add_post():
         tag_list = []
         tag_value = form.tags.data.decode('utf-8')
         if tag_value != '':
-            tag_list = [ Tag(tag) for tag in tag_value.split(',')]
+            tag_list = [ tag for tag in tag_value.split(',')]
         post.save(tag_list)
         return redirect(url_for('admin.post'))
     return render_template('admin/add_post.html', form=form, edit_post_id=None)
