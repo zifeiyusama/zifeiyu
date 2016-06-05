@@ -65,25 +65,25 @@ def oauth_authorized():
 @frontend.route('/index')
 @frontend.route('/index/<int:page>')
 def index(page=1):
-    posts = Post.query.paginate(page, POSTS_PER_PAGE, False)
+    posts = Post.query.filter_by(status='PUBLISHED').paginate(page, POSTS_PER_PAGE, False)
     return render_template('frontend/index.html', posts=posts)
 
 @frontend.route('/column/<column_id>/<int:page>')
 @frontend.route('/column/<column_id>')
 def column(column_id,page=1):
-    posts = Post.query.filter_by(column_id=column_id).paginate(page, POSTS_PER_PAGE, False)
+    posts = Post.query.filter_by(column_id=column_id, status='PUBLISHED').paginate(page, POSTS_PER_PAGE, False)
     return render_template('frontend/index.html', posts=posts, column_id=column_id)
 
 @frontend.route('/archive/<archive_id>/<int:page>')
 @frontend.route('/archive/<archive_id>')
 def archive(archive_id,page=1):
-    posts = Post.query.filter_by(archive_id=archive_id).paginate(page, POSTS_PER_PAGE, False)
+    posts = Post.query.filter_by(archive_id=archive_id, status='PUBLISHED').paginate(page, POSTS_PER_PAGE, False)
     return render_template('frontend/index.html', posts=posts, archive_id=archive_id)
 
 @frontend.route('/tag/<tag_id>/<int:page>')
 @frontend.route('/tag/<tag_id>')
 def tag(tag_id,page=1):
-    posts = Post.query.filter(Post.tags.any(Tag.id == tag_id)).paginate(page, POSTS_PER_PAGE, False)
+    posts = Post.query.filter(Post.tags.any(Tag.id == tag_id), Post.status=='PUBLISHED').paginate(page, POSTS_PER_PAGE, False)
     return render_template('frontend/index.html', posts=posts, tag_id=tag_id)
 
 @frontend.route('/post/<post_id>')
