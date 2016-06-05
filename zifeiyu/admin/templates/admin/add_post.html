@@ -67,6 +67,30 @@
         <!-- /.box-footer -->
     </form>
 </div>
+<div class="modal fade" id="addColumnModal" tabindex="-1" role="dialog" aria-labelledby="addColumn">
+    <div class="modal-dialog" role="document">
+        <form class="form-horizontal addColumnForm" action="#" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button"  class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加栏目</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="label" class="col-sm-2 control-label">栏目名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="label" name="label" placeholder="请输入栏目名称...">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-info">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
 {% block script %}
 {{ super() }}
@@ -93,7 +117,6 @@ var simplemde = new SimpleMDE({
         italic: "*"
     },
     element: document.getElementById("content"),
-    hideIcons: ["guide", "heading"],
     indentWithTabs: false,
     insertTexts: {
         horizontalRule: ["", "\n\n-----\n\n"],
@@ -116,10 +139,8 @@ var simplemde = new SimpleMDE({
     shortcuts: {
         drawTable: "Cmd-Alt-T"
     },
-    showIcons: ["code", "table"],
     spellChecker: false,
     status: false,
-    status: ["autosave", "lines", "words", "cursor"], // Optional usage
     status: ["autosave", "lines", "words", "cursor", {
         className: "keystrokes",
         defaultValue: function(el) {
@@ -132,6 +153,98 @@ var simplemde = new SimpleMDE({
     }], // Another optional usage, with a custom status bar item that counts keystrokes
     tabSize: 4,
     toolbarTips: false,
+    toolbar: [
+        {
+            name: "bold",
+            action: SimpleMDE.toggleBold,
+            className: "fa fa-bold",
+            title: "Bold",
+        },
+        {
+            name: "italic",
+            action: SimpleMDE.toggleItalic,
+            className: "fa fa-italic",
+            title: "Italic",
+        },
+        {
+            name: "heading",
+            action: SimpleMDE.toggleHeadingSmaller,
+            className: "fa fa-header",
+            title: "Heading",
+        },
+        {
+            name: "strikethrough",
+            action: SimpleMDE.toggleStrikethrough,
+            className: "fa fa-strikethrough",
+            title: "Strikethrough",
+        },
+        "|",
+        {
+            name: "code",
+            action: SimpleMDE.toggleCodeBlock,
+            className: "fa fa-code",
+            title: "Code",
+        },
+        {
+            name: "quote",
+            action: SimpleMDE.toggleBlockquote,
+            className: "fa fa-quote-left",
+            title: "Quote",
+        },
+        {
+            name: "unordered-list",
+            action: SimpleMDE.toggleUnorderedList,
+            className: "fa fa-list-ul",
+            title: "Generic List",
+        },
+        {
+            name: "ordered-list",
+            action: SimpleMDE.toggleOrderedList,
+            className: "fa fa-list-ol",
+            title: "Numbered List",
+        },
+        "|",
+        {
+            name: "link",
+            action: SimpleMDE.drawLink,
+            className: "fa fa-link",
+            title: "Create Link",
+        },
+        {
+            name: "table",
+            action: SimpleMDE.drawTable,
+            className: "fa fa-table",
+            title: "Insert Table",
+        },
+        {
+            name: "image",
+            action: function (editor){
+                url = 'test'
+                console.log($('.fa-picture-o').attr('class'))
+                console.log(this)
+                $("#addColumnModal").attr('class', 'modal fade in')
+                $("#addColumnModal").attr('style', 'display: block; padding-left: 0px;')
+                editor.options.insertTexts.image = ["![](http://", url + ")", "![", "](#url#)"]
+                editor.drawImage()
+                editor.options.insertTexts.image = ["![](http://", ")", "![", "](#url#)"]
+            },
+            className: "fa fa-picture-o",
+            title: "Insert Image",
+        },
+        "|",
+        {
+            name: "horizontal-rule",
+            action: SimpleMDE.drawHorizontalRule,
+            className: "fa fa-minus",
+            title: "Insert Horizontal Line",
+        },
+        {
+            name: "preview",
+            action: SimpleMDE.togglePreview,
+            className: "fa fa-eye no-disable",
+            title: "Toggle Preview",
+        },
+    ]
 });
 simplemde.clearAutosavedValue();
 simplemde.value();
@@ -150,6 +263,13 @@ simplemde.value();
             }
         }
     }
+    $(".fa-picture-o").attr("data-toggle","modal");
+    $(".fa-picture-o").attr("data-targe","#addColumnModal");
+    $(".close").on("click", function(event){
+        $("#addColumnModal").attr('class', 'modal fade')
+        $("#addColumnModal").attr('style', 'display: none;')
+    })
+
 </script>
 {% if edit_post_id != None %}
 {{ MDSetter(form.content.data).setMDvalue() }}
