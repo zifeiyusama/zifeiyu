@@ -28,17 +28,17 @@
     </div>
 </article>
 {% endfor%}
-{% endblock %}
-<nav class="pagination" role="navigation">
+<div class="pagination" role="navigation">
     {% if posts.has_prev %}
-    <a href="{% block pre_url %}#{% endblock %}" class="newer-posts">
+    <a href="{{ url_for('frontend.index') }}/{{ posts.prev_num }}" class="newer-posts">
         <i class="fa fa-angle-left"></i>
     </a>
     {% endif %}
     <span class="page-number">第 {{ posts.page }} 页 ⁄ 共 {{ posts.pages }} 页</span>
     {% if posts.has_next %}
-    <a href="{% block next_url %}#{% endblock %}" class="older-posts">
+    <a href="{{ url_for('frontend.index') }}/{{ posts.next_num }}" class="older-posts">
         <i class="fa fa-angle-right"></i>
     </a>
     {% endif %}
-</nav>
+</div>
+{% endblock %}

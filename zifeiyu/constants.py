@@ -21,4 +21,4 @@ POST_STATUS = [
     ('DELETED',u'删除')
 ]
 
-POSTS_PER_PAGE = 2
+POSTS_PER_PAGE = 3

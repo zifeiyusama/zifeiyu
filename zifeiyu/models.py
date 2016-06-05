@@ -107,20 +107,19 @@ class Post(db.Model):
             self.created_date = datetime.utcnow()
             archive = Archive(datetime.now())
             db.session.merge(archive)
-            # archive_id = datetime.now().strftime("%Y-%m")
-            # archive = Archive.query.filter(Archive.id == archive_id).first()
-            # if archive is None:
-            #     # TODO: test
-            #     archive = Archive(datetime.now())
-            #     db.session.add(archive)
-            #     db.session.commit()
             self.archive_id = archive.id
         self.updated_date = datetime.utcnow()
         if len(tag_list) > 0:
-            post_tags_id = [t.id for t in self.tags]
-            for tag in tag_list:
-                if tag.id not in post_tags_id:
-                    self.tags.append(tag)
+            exists_tags = db.session.query(Tag).filter(Tag.id.in_(tag_list))
+            exists_tags_id = []
+            for tag in exists_tags:
+                exists_tags_id.append(tag.id)
+                self.tags.append(tag)
+            for new_tag in tag_list:
+                if new_tag not in exists_tags_id:
+                    new_tag_obj = Tag(new_tag)
+                    db.session.add(new_tag_obj)
+                    self.tags.append(new_tag_obj)
         db.session.add(self)
         db.session.commit()
 
@@ -162,7 +161,7 @@ class Column(db.Model):
     __tablename__ = 'column'
     id = db.Column(db.String(50), primary_key=True)
     posts = db.relationship('Post', backref="column")
-    label = db.Column(db.String(15))
+    label = db.Column(db.Unicode(15))
     created_date = db.Column(db.DateTime)
     updated_date = db.Column(db.DateTime)
     deleted_date = db.Column(db.DateTime)

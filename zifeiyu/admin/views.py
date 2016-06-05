@@ -15,8 +15,7 @@ from .forms import LoginForm, PostForm, AddColumnForm
 from zifeiyu.models import Admin
 from flask import redirect, url_for, render_template, request, flash
 from zifeiyu.models import Post, Column, Archive, Tag
-from zifeiyu.extensions import db
-from zifeiyu.extensions import csrf
+from zifeiyu.extensions import db, csrf, photos
 from zifeiyu.utils.markdown import MDconverter
 
 
@@ -102,7 +101,7 @@ def edit_post(post_id):
         tag_list = []
         tag_value = form.tags.data.decode('utf-8')
         if tag_value != '':
-            tag_list = [ Tag(tag) for tag in form.tags.data.decode('utf-8').split(',')]
+            tag_list = [ tag for tag in form.tags.data.decode('utf-8').split(',')]
         post.save(tag_list)
         return redirect(url_for('admin.post'))
     return render_template('admin/add_post.html', form=form, edit_post_id=post_id)
@@ -127,6 +126,7 @@ def add_column():
     if form.validate_on_submit():
         column = Column()
         column.label = form.label.data
+        print form.label.data
         if column.save('insert'):
             flash((u"插入成功"), "success")
         else:
@@ -172,4 +172,21 @@ def tag():
 @fresh_login_required
 def message():
     return render_template('admin/message.html')
+
+@admin.route('/upload', methods=['POST'])
+def upload():
+    if 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        rec = Photo(filename=filename, user=g.user.id)
+        rec.store()
+        return redirect(url_for('show', id=rec.id))
+
+@admin.route('/photo/<id>')
+def get_photo(id):
+    photo = Photo.load(id)
+    if photo is None:
+        #TODO change
+        abort(404)
+    url = photos.url(photo.filename)
+    return render_template('show.html', url=url, photo=photo)
 
