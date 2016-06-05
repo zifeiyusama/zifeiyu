@@ -112,6 +112,12 @@ class Post(db.Model):
         if len(tag_list) > 0:
             exists_tags = db.session.query(Tag).filter(Tag.id.in_(tag_list))
             exists_tags_id = []
+            to_remove_tag = []
+            for old_tag in self.tags:
+                if old_tag.id not in tag_list:
+                    to_remove_tag.append(old_tag)
+            for t in to_remove_tag:
+                self.tags.remove(t)
             for tag in exists_tags:
                 exists_tags_id.append(tag.id)
                 self.tags.append(tag)
